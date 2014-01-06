@@ -1,8 +1,11 @@
 alias reload!='. ~/.zshrc'
 
 if echo $(uname) | grep -q "FreeBSD"; then
-  alias ls='gnuls --group-directories-first --color'
+  ls_cmd="gnuls"
+else
+  ls_cmd="ls"
 fi
+alias ls="$ls_cmd --group-directories-first --color"
   
 alias df='df -h'
 
