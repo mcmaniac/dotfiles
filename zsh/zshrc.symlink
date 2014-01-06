@@ -1,3 +1,7 @@
+################################################################################
+# dotfiles configuration
+#
+
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
@@ -38,3 +42,47 @@ do
 done
 
 unset config_files
+
+################################################################################
+# my stuff
+#
+
+#export LANG=de_DE.UTF-8
+#export LC_ALL=de_DE.UTF-8
+
+# Path to your oh-my-zsh configuration.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set to the name theme to load.
+# Look in ~/.oh-my-zsh/themes/
+export ZSH_THEME='my-lambda'
+
+# Set to this to use case-sensitive completion
+# export CASE_SENSITIVE="true"
+
+# Comment this out to disable weekly auto-update checks
+# export DISABLE_AUTO_UPDATE="true"
+
+# Uncomment following line if you want to disable colors in ls
+# export DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# export DISABLE_AUTO_TITLE="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+source $HOME/.alias
+
+# Customize to your needs...
+export PATH=$PATH:/home/schweinsberg/.local/bin
+
+#export LD_LIBRARY_PATH="$HOME/.local/lib"
+#export LD_RUN_PATH="$HOME/.local/lib"
+export LDFLAGS="-L$HOME/.local/lib"
+export CPPFLAGS="-I$HOME/.local/include"
+export CFLAGS="-I$HOME/.local/include"
+
+export EDITOR=$(which vim)
