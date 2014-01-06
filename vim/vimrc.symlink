@@ -1,4 +1,69 @@
-syntax on
+set mouse=a
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+set number
+set encoding=utf-8
+set autoindent
+set smartcase " or: ignorecase
+set ruler
+
+" Expand tabs to 2 spaces
+set expandtab
+set ts=2
+set sw=2
+"set bs=4 " backspace deletes over eol,indent and start
+set completeopt=menu,menuone,longest
+
+syntax on
+colorscheme molokai
+
+filetype plugin on
+filetype indent on
+
+"
+" General key settings
+"
+
+noremap <C-t> :NERDTreeToggle<CR>
+set pastetoggle=<F9>
+
+"
+" Highlight lines longer than 80 characters
+"
+
+highlight OverLength ctermfg=red guibg=#592929
+match OverLength /\%81v.\+/
+
+"
+" Restore cursor position:
+" http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
+"
+
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
+  autocmd BufWinEnter * normal! zz
+augroup END
+
+"
+" Filetype autocommands
+"
+
+augroup Gnuplot
+  autocmd!
+  autocmd BufEnter *.gp set filetype=gnuplot
+  autocmd BufEnter *.gp noremap <C-g> :!gnuplot %<CR>
+augroup END
+
+augroup Haskell
+  autocmd!
+  autocmd BufEnter *.hs,*.lhs set filetype=haskell
+  autocmd BufEnter *.hs,*.lhs noremap <C-g> :w<CR>:!ghci -Wall %<CR>
+  "autocmd BufEnter *.hs,*.lhs compiler ghc
+augroup END
