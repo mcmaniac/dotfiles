@@ -1,0 +1,7 @@
+[user]
+	name = Nils Schweinsberg
+	email = mail@nils.cc
+[grep]
+	lineNumber = true
+[help]
+	autocorrect = 10
