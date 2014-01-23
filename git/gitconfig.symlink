@@ -5,3 +5,5 @@
 	lineNumber = true
 [help]
 	autocorrect = 10
+[push]
+	default = simple

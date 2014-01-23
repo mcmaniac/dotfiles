@@ -30,8 +30,23 @@ set pastetoggle=<F9>
 " Highlight lines longer than 80 characters
 "
 
-highlight OverLength ctermfg=red guibg=#592929
-match OverLength /\%81v.\+/
+highlight OverLength ctermfg=9 ctermbg=16
+autocmd BufEnter * match OverLength /\%81v.\{,3}/
+
+"
+" Remove trailing space on write
+"
+
+"set list listchars=tab:»·,trail:·
+
+function! TrimWhitespace()
+  let l:winview = winsaveview()
+  silent! %s/\s\+$//
+  call winrestview(l:winview)
+:endfunction
+
+autocmd Filetype c,cpp,haskell autocmd BufWritePre <buffer> call TrimWhitespace()
+
 
 "
 " Restore cursor position:
