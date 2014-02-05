@@ -23,14 +23,20 @@ filetype indent on
 " General key settings
 "
 
-noremap <C-t> :NERDTreeToggle<CR>
+let mapleader=","
+
+" Toggle paste mode
 set pastetoggle=<F9>
+
+" nerd tree keys
+noremap <C-t> :NERDTreeToggle<CR>
 
 "
 " Highlight lines longer than 80 characters
 "
 
 highlight OverLength ctermfg=9 ctermbg=16
+
 autocmd BufEnter * match OverLength /\%81v.\{,3}/
 
 "
@@ -43,10 +49,46 @@ function! TrimWhitespace()
   let l:winview = winsaveview()
   silent! %s/\s\+$//
   call winrestview(l:winview)
-:endfunction
+endfunction
 
-autocmd Filetype c,cpp,haskell autocmd BufWritePre <buffer> call TrimWhitespace()
+augroup trim_whitespace
+  autocmd!
+  autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.hs,*.js,*.html,*.css,*.psql
+        \ call TrimWhitespace()
+augroup END
 
+"
+" Tags for C/C++ files
+"
+
+set tags+=.tags
+
+function! GenerateTags()
+  !ctags -R -f .tags
+endfunction
+
+augroup cpp_au
+  autocmd!
+
+  " Use 4 spaces for indent
+  au FileType c,cpp setlocal ts=4 sw=4
+
+  " Generate .tags file after writing a buffer
+  au BufWritePost *.h,*.hpp call GenerateTags()
+
+
+  " tags: Jump to definition & center buffer
+  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <F2> <C-]>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <C-w><F2> :vsp<CR><C-]>zz
+
+  " tags: Pop tag
+  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <Leader><F2> :pop<CR>
+
+  " a.vim: switch between header/implementation
+  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <F4> :A<CR>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <C-w><F4> :AV<CR>zz
+
+augroup END
 
 "
 " Restore cursor position:
