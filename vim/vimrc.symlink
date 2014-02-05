@@ -53,7 +53,7 @@ endfunction
 
 augroup trim_whitespace
   autocmd!
-  autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.hs,*.js,*.html,*.css,*.psql
+  autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.hs,*.lhs,*.js,*.html,*.css,*.psql,*.gp
         \ call TrimWhitespace()
 augroup END
 
