@@ -23,7 +23,8 @@ filetype indent on
 " General key settings
 "
 
-let mapleader=","
+inoremap <C-c> <Esc>
+"let mapleader=","
 
 " Toggle paste mode
 set pastetoggle=<F9>
