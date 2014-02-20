@@ -54,7 +54,7 @@ endfunction
 
 augroup trim_whitespace
   autocmd!
-  autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.hs,*.lhs,*.js,*.html,*.css,*.psql,*.gp
+    autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.cu,*.hs,*.lhs,*.js,*.html,*.css,*.psql,*.gp
         \ call TrimWhitespace()
 augroup END
 
@@ -71,8 +71,10 @@ endfunction
 augroup cpp_au
   autocmd!
 
+  au BufEnter *.cuh set ft=cuda
+
   " Use 4 spaces for indent
-  au FileType c,cpp setlocal ts=4 sw=4
+  au FileType c,cpp,cuda setlocal ts=4 sw=4
 
   " Generate .tags file after writing a buffer
   au BufWritePost *.h,*.hpp call GenerateTags()
