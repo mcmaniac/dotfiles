@@ -62,10 +62,14 @@ augroup END
 " Tags for C/C++ files
 "
 
-set tags+=.tags
+set tags+=.tags,.cu_tags
 
 function! GenerateTags()
-  !ctags -R -f .tags
+  if (&ft == 'cuda')
+    !ctags -R -f .cu_tags --langmap=c++:.cu.cuh 
+  else
+    !ctags -R -f .tags
+  endif
 endfunction
 
 augroup cpp_au
@@ -77,8 +81,7 @@ augroup cpp_au
   au FileType c,cpp,cuda setlocal ts=4 sw=4
 
   " Generate .tags file after writing a buffer
-  au BufWritePost *.h,*.hpp call GenerateTags()
-
+  au BufWritePost *.h,*.hpp,*.cuh call GenerateTags()
 
   " tags: Jump to definition & center buffer
   au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> <C-]>zz
@@ -88,8 +91,8 @@ augroup cpp_au
   "au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> :pop<CR>
 
   " a.vim: switch between header/implementation
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <Tab> :A<CR>zz
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <C-w><Tab> :AV<CR>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <Tab> :A<CR>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <C-w><Tab> :AV<CR>zz
 
 augroup END
 
