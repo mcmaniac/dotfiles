@@ -59,7 +59,7 @@ augroup trim_whitespace
 augroup END
 
 "
-" Tags for C/C++ files
+" Tags for C/C++, CUDA and Haskell files
 "
 
 set tags+=.tags,.cu_tags,.hs_tags
@@ -87,6 +87,10 @@ augroup gen_tags
   " tags: Pop tag
   "au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> :pop<CR>
 augroup END
+
+"
+" C/C++ specific extensions (+ CUDA)
+"
 
 augroup cpp_au
   autocmd!
