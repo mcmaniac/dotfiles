@@ -65,11 +65,7 @@ augroup END
 set tags+=.tags,.cu_tags
 
 function! GenerateTags()
-  if (&ft == 'cuda')
-    !ctags -R -f .cu_tags --langmap=c++:.cu.cuh 
-  else
-    !ctags -R -f .tags
-  endif
+  !ctags -R -f .tags --langmap=c++:.cpp.h.hpp.cu.cuh
 endfunction
 
 augroup cpp_au
@@ -84,8 +80,8 @@ augroup cpp_au
   au BufWritePost *.h,*.hpp,*.cuh call GenerateTags()
 
   " tags: Jump to definition & center buffer
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> <C-]>zz
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <C-w><CR> :vsp<CR><C-]>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <CR> <C-]>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <C-w><CR> :vsp<CR><C-]>zz
 
   " tags: Pop tag
   "au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> :pop<CR>
