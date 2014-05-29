@@ -11,6 +11,7 @@ set expandtab
 set ts=2
 set sw=2
 "set bs=4 " backspace deletes over eol,indent and start
+set bs=indent,eol,start
 set completeopt=menu,menuone,longest
 
 syntax on
