@@ -4,7 +4,7 @@ set -g bell-action any
 set -g visual-bell off
 set -g mouse-select-pane on
 
-set -g default-shell /bin/zsh
+#set -g default-shell /bin/zsh
 set -g default-terminal screen-256color
 
 bind -n F11 prev

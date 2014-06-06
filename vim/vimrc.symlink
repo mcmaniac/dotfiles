@@ -11,6 +11,7 @@ set expandtab
 set ts=2
 set sw=2
 "set bs=4 " backspace deletes over eol,indent and start
+set bs=indent,eol,start
 set completeopt=menu,menuone,longest
 
 syntax on
@@ -54,40 +55,53 @@ endfunction
 
 augroup trim_whitespace
   autocmd!
-  autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.hs,*.lhs,*.js,*.html,*.css,*.psql,*.gp
+    autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.cu,*.hs,*.lhs,*.js,*.html,*.css,*.psql,*.gp
         \ call TrimWhitespace()
 augroup END
 
 "
-" Tags for C/C++ files
+" Tags for C/C++, CUDA and Haskell files
 "
 
-set tags+=.tags
+set tags+=.tags,.cu_tags,.hs_tags
 
 function! GenerateTags()
-  !ctags -R -f .tags
+  if (&ft == 'haskell')
+    !hasktags -c -o .hs_tags .
+  else
+    !ctags -R -f .tags --langmap=c++:.cpp.h.hpp.cu.cuh
+  endif
 endfunction
+
+augroup gen_tags
+  au!
+
+  " Generate .tags file after writing a buffer
+  au BufWritePost *.h,*.hpp,*.cuh,*.hs call GenerateTags()
+
+  " tags: Jump to definition & center buffer
+  au BufEnter *.hs,*.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <CR> <C-]>zz
+  au BufEnter *.hs,*.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <C-w><CR> :vsp<CR><C-]>zz
+
+  " tags: Pop tag
+  "au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> :pop<CR>
+augroup END
+
+"
+" C/C++ specific extensions (+ CUDA)
+"
 
 augroup cpp_au
   autocmd!
 
+  au BufEnter *.cuh set ft=cuda
+
   " Use 4 spaces for indent
-  au FileType c,cpp setlocal ts=4 sw=4
-
-  " Generate .tags file after writing a buffer
-  au BufWritePost *.h,*.hpp call GenerateTags()
-
-
-  " tags: Jump to definition & center buffer
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> <C-]>zz
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <C-w><CR> :vsp<CR><C-]>zz
-
-  " tags: Pop tag
-  "au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <CR> :pop<CR>
+  au FileType c,cpp,cuda setlocal ts=4 sw=4
 
   " a.vim: switch between header/implementation
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <Tab> :A<CR>zz
-  au BufEnter *.c,*.cpp,*.h,*.hpp nnoremap <C-w><Tab> :AV<CR>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <Tab> :A<CR>zz
+  au BufEnter *.c,*.cpp,*.h,*.hpp,*.cu,*.cuh nnoremap <C-w><Tab> :AV<CR>zz
 
 augroup END
 

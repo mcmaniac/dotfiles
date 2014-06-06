@@ -103,6 +103,10 @@ call <SID>AddAlternateExtensionMapping('mli',"ml")
 call <SID>AddAlternateExtensionMapping('aspx.cs', 'aspx')
 call <SID>AddAlternateExtensionMapping('aspx.vb', 'aspx')
 call <SID>AddAlternateExtensionMapping('aspx', 'aspx.cs,aspx.vb')
+" Mappings for CUDA
+call <SID>AddAlternateExtensionMapping('cu',"cuh,CUH")
+call <SID>AddAlternateExtensionMapping('cuh',"cu,CU")
+
 
 " Setup default search path, unless the user has specified
 " a path in their [._]vimrc. 
