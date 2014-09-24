@@ -1,0 +1,5 @@
+set guifont=Consolas:h10:cANSI
+set guioptions=e
+
+" window size
+set columns=140 lines=40
