@@ -48,9 +48,30 @@ setup_gitconfig () {
   fi
 }
 
+win32ilize () {
+  echo "$1" | sed -r "s|^/([a-z]+)|\\1:|" | sed "s|/|\\\\|g"
+}
+
 link_files () {
-  ln -s $1 $2
-  success "linked $1 to $2"
+  if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]
+  then
+    src=`win32ilize "$1"`
+    dst=`win32ilize "$2"`
+
+    if [[ -d "$src" ]]
+    then
+      echo " (directory)"
+      cmd /c "mklink /D $dst $src"
+    else
+      echo " (file)"
+      cmd /c "mklink $dst $src"
+    fi
+
+    success "linked $src to $dst"
+  else
+    ln -s $1 $2
+    success "linked $1 to $2"
+  fi
 }
 
 install_dotfiles () {
