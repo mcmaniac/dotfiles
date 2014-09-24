@@ -1,3 +1,5 @@
+set runtimepath+=$HOME/.vim
+
 set mouse=a
 
 set number
